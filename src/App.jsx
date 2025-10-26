@@ -32,19 +32,20 @@ const App = () => {
   // 🔹 Handle login
   const handleLogin = () => {
     localStorage.setItem("isLoggedIn", "true");
-    setIsLoggedIn(true);
+    setIsLoggedIn(true); // update React state instantly
   };
 
   // 🔹 Handle logout
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
+    setIsLoggedIn(false); // instantly switch UI to Login
   };
 
   return (
     <Router>
       {isLoggedIn ? (
         <div className="flex h-screen bg-vscode-bg">
+          {/* Pass handleLogout to Sidebar */}
           <Sidebar isOpen={sidebarOpen} onLogout={handleLogout} />
           <div className="flex-1 flex flex-col">
             <Navbar onToggleSidebar={toggleSidebar} />
@@ -114,6 +115,7 @@ const App = () => {
         </div>
       ) : (
         <Routes>
+          {/* Pass handleLogin to Login */}
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

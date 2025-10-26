@@ -1,55 +1,51 @@
-import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaUserPlus,
   FaFileContract,
-  FaCalendarCheck
-} from 'react-icons/fa';
+  FaCalendarCheck,
+} from "react-icons/fa";
 
-
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, onLogout }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const menuItems = [
     {
-      path: '/',
-      name: 'Dashboard',
+      path: "/",
+      name: "Dashboard",
       icon: <FaHome className="w-5 h-5" />,
     },
     {
-      path: '/register',
-      name: 'Employee Registration',
+      path: "/register",
+      name: "Employee Registration",
       icon: <FaUserPlus className="w-5 h-5" />,
-      
     },
     {
-      path: '/contracts',
-      name: 'Contracts',
+      path: "/contracts",
+      name: "Contracts",
       icon: <FaFileContract className="w-5 h-5" />,
     },
     {
-      path: '/attendance-records',
-      name: 'Attendance Records',
+      path: "/attendance-records",
+      name: "Attendance Records",
       icon: <FaCalendarCheck className="w-5 h-5" />,
-     
     },
   ];
 
   const isActive = (path) => location.pathname === path;
 
-  // 🔹 Logout handler (redirects to login)
-  
+  // 🔹 Logout handler (redirects immediately)
   const handleLogout = () => {
-  localStorage.removeItem("isLoggedIn");
-  navigate("/login");
-};
+    onLogout(); // update App state instantly
+    navigate("/login", { replace: true }); // redirect without refresh
+  };
 
   return (
     <div
       className={`sidebar h-full flex flex-col bg-vscode-bg transition-all duration-300 ${
-        isOpen ? 'w-64' : 'w-16'
+        isOpen ? "w-64" : "w-16"
       }`}
     >
       {/* Sidebar Header */}
@@ -63,12 +59,21 @@ const Sidebar = ({ isOpen }) => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
               </svg>
             </div>
             <div>
-              <h2 className="text-sm font-semibold text-vscode-text">HR System</h2>
-              <p className="text-xs text-vscode-text-muted">Employee Management</p>
+              <h2 className="text-sm font-semibold text-vscode-text">
+                HR System
+              </h2>
+              <p className="text-xs text-vscode-text-muted">
+                Employee Management
+              </p>
             </div>
           </div>
         ) : (
@@ -80,7 +85,12 @@ const Sidebar = ({ isOpen }) => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
               </svg>
             </div>
           </div>
@@ -94,11 +104,13 @@ const Sidebar = ({ isOpen }) => {
             key={item.path}
             to={item.path}
             className={`flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200
-              ${isActive(item.path)
-                ? 'bg-vscode-accent text-white'
-                : 'text-vscode-text-muted hover:text-vscode-text hover:bg-vscode-bg-lighter'}
-              ${!isOpen ? 'justify-center' : ''}`}
-            title={!isOpen ? item.name : ''}
+              ${
+                isActive(item.path)
+                  ? "bg-vscode-accent text-white"
+                  : "text-vscode-text-muted hover:text-vscode-text hover:bg-vscode-bg-lighter"
+              }
+              ${!isOpen ? "justify-center" : ""}`}
+            title={!isOpen ? item.name : ""}
           >
             {item.icon}
             {isOpen && <span>{item.name}</span>}
@@ -112,15 +124,17 @@ const Sidebar = ({ isOpen }) => {
           onClick={handleLogout}
           className="w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors"
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M17 16l4-4m0 0l-4-4m4 4H7
-              m6 4v1a2 2 0 01-2 2H7
-              a2 2 0 01-2-2V7
-              a2 2 0 012-2h4a2 2 0 012 2v1"
+              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1"
             />
           </svg>
           {isOpen && <span>Logout</span>}
