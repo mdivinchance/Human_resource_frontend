@@ -156,15 +156,19 @@ const Contract = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="form-label">Employee Name</label>
-            <input
-              type="text"
-              name="employeeName"
-              value={formData.employeeName}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Enter employee name"
-              required
-            />
+            <select
+            name="employeeName"
+            value={formData.employeeName}
+            onChange={handleChange}
+            className="form-input w-full"
+            required
+           >
+               <option value="">Select employee</option>
+               <option value="Alice Johnson">Alice Johnson</option>
+               <option value="David Smith">David Smith</option>
+               <option value="Sophia Brown">Sophia Brown</option>
+               <option value="John Doe">John Doe</option>
+           </select>
           </div>
 
           <div>

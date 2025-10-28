@@ -109,7 +109,7 @@ const EmployeeRegister = () => {
               value={formData.department}
               onChange={handleChange}
               className="form-input"
-              placeholder="e.g., HR, IT, Sales"
+              placeholder="e.g. IT, Sales"
             />
           </div>
 
