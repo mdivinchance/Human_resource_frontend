@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast"; // ✅ Toast provider
+
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 
@@ -21,7 +23,9 @@ const App = () => {
   const [contracts, setContracts] = useState([]);
   const [attendanceList, setAttendanceList] = useState([]);
 
-  // Load login state from localStorage when app starts
+  const navigate = useNavigate();
+
+  // Load login state
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
@@ -29,85 +33,36 @@ const App = () => {
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-  // 🔹 Handle login
+  // ✅ Handle login
   const handleLogin = () => {
     localStorage.setItem("isLoggedIn", "true");
-    setIsLoggedIn(true); // update React state instantly
+    setIsLoggedIn(true);
+    navigate("/"); // Redirect to dashboard
   };
 
-  // 🔹 Handle logout
+  // ✅ Handle logout properly
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false); // instantly switch UI to Login
+    setIsLoggedIn(false);
+    navigate("/login"); // Redirect immediately
   };
 
   return (
-    <Router>
+    <>
+      <Toaster position="top-right" reverseOrder={false} />
       {isLoggedIn ? (
         <div className="flex h-screen bg-vscode-bg">
-          {/* Pass handleLogout to Sidebar */}
           <Sidebar isOpen={sidebarOpen} onLogout={handleLogout} />
           <div className="flex-1 flex flex-col">
             <Navbar onToggleSidebar={toggleSidebar} />
             <main className="flex-1 overflow-auto p-6">
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <Home
-                      employees={employees}
-                      contracts={contracts}
-                      attendanceList={attendanceList}
-                    />
-                  }
-                />
-                <Route
-                  path="/register"
-                  element={
-                    <EmployeeRegister
-                      employees={employees}
-                      setEmployees={setEmployees}
-                    />
-                  }
-                />
-                <Route
-                  path="/attendance"
-                  element={
-                    <Attendance
-                      employees={employees}
-                      attendanceList={attendanceList}
-                      setAttendanceList={setAttendanceList}
-                    />
-                  }
-                />
-                <Route
-                  path="/contracts"
-                  element={
-                    <Contracts
-                      employees={employees}
-                      contracts={contracts}
-                      setContracts={setContracts}
-                    />
-                  }
-                />
-                <Route
-                  path="/active-contracts"
-                  element={
-                    <ActiveContracts
-                      contracts={contracts}
-                      setContracts={setContracts}
-                    />
-                  }
-                />
-                <Route
-                  path="/attendance-records"
-                  element={
-                    <AttendanceRecords
-                      attendanceList={attendanceList}
-                      setAttendanceList={setAttendanceList}
-                    />
-                  }
-                />
+                <Route path="/" element={<Home employees={employees} contracts={contracts} attendanceList={attendanceList} />} />
+                <Route path="/register" element={<EmployeeRegister employees={employees} setEmployees={setEmployees} />} />
+                <Route path="/attendance" element={<Attendance employees={employees} attendanceList={attendanceList} setAttendanceList={setAttendanceList} />} />
+                <Route path="/contracts" element={<Contracts employees={employees} contracts={contracts} setContracts={setContracts} />} />
+                <Route path="/active-contracts" element={<ActiveContracts contracts={contracts} setContracts={setContracts} />} />
+                <Route path="/attendance-records" element={<AttendanceRecords attendanceList={attendanceList} setAttendanceList={setAttendanceList} />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </main>
@@ -115,13 +70,19 @@ const App = () => {
         </div>
       ) : (
         <Routes>
-          {/* Pass handleLogin to Login */}
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       )}
-    </Router>
+    </>
   );
 };
 
-export default App;
+// ✅ Wrap App with Router here
+const AppWithRouter = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWithRouter;

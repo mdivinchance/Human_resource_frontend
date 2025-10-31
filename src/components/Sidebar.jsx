@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   FaHome,
   FaUserPlus,
@@ -7,44 +7,17 @@ import {
   FaCalendarCheck
 } from 'react-icons/fa';
 
-
-const Sidebar = ({ isOpen }) => {
+const Sidebar = ({ isOpen, onLogout }) => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const menuItems = [
-    {
-      path: '/',
-      name: 'Dashboard',
-      icon: <FaHome className="w-5 h-5" />,
-    },
-    {
-      path: '/register',
-      name: 'Employee Registration',
-      icon: <FaUserPlus className="w-5 h-5" />,
-      
-    },
-    {
-      path: '/contracts',
-      name: 'Contracts',
-      icon: <FaFileContract className="w-5 h-5" />,
-    },
-    {
-      path: '/attendance-records',
-      name: 'Attendance Records',
-      icon: <FaCalendarCheck className="w-5 h-5" />,
-     
-    },
+    { path: '/', name: 'Dashboard', icon: <FaHome className="w-5 h-5" /> },
+    { path: '/register', name: 'Employee Registration', icon: <FaUserPlus className="w-5 h-5" /> },
+    { path: '/contracts', name: 'Contracts', icon: <FaFileContract className="w-5 h-5" /> },
+    { path: '/attendance-records', name: 'Attendance Records', icon: <FaCalendarCheck className="w-5 h-5" /> },
   ];
 
   const isActive = (path) => location.pathname === path;
-
-  // 🔹 Logout handler (redirects to login)
-  
-  const handleLogout = () => {
-  localStorage.removeItem("isLoggedIn");
-  navigate("/login");
-};
 
   return (
     <div
@@ -63,7 +36,12 @@ const Sidebar = ({ isOpen }) => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
               </svg>
             </div>
             <div>
@@ -80,7 +58,12 @@ const Sidebar = ({ isOpen }) => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
               </svg>
             </div>
           </div>
@@ -109,7 +92,7 @@ const Sidebar = ({ isOpen }) => {
       {/* Logout Button */}
       <div className="p-4 border-t border-vscode-border">
         <button
-          onClick={handleLogout}
+          onClick={onLogout} // ✅ Call parent's logout function
           className="w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
