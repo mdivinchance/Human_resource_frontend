@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 const Navbar = ({ onToggleSidebar }) => {
   const location = useLocation();
 
-  // Helper to get current page name
   const getPageName = (pathname) => {
     switch (pathname) {
       case '/': return 'Home';
@@ -20,7 +19,6 @@ const Navbar = ({ onToggleSidebar }) => {
   return (
     <nav className="bg-vscode-sidebar border-b border-vscode-border px-4 py-3">
       <div className="flex items-center justify-between">
-        {/* Left side - Logo and toggle */}
         <div className="flex items-center space-x-4">
           <button
             onClick={onToggleSidebar}
@@ -35,7 +33,6 @@ const Navbar = ({ onToggleSidebar }) => {
           
         </div>
 
-        {/* Center - Navigation links */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
             to="/"
@@ -49,24 +46,14 @@ const Navbar = ({ onToggleSidebar }) => {
           >
             Employee Registration
           </Link>
-          {/* <Link
-            to="/attendance"
-            className={`px-3 py-1 rounded-md transition-colors ${location.pathname === '/attendance' ? 'bg-vscode-bg-lighter text-white' : 'text-vscode-text-muted hover:text-vscode-text hover:bg-vscode-bg-lighter'}`}
-          >
-            Attendance
-          </Link> */}
+          
           <Link
             to="/contracts"
             className={`px-3 py-1 rounded-md transition-colors ${location.pathname === '/contracts' ? 'bg-vscode-bg-lighter text-white' : 'text-vscode-text-muted hover:text-vscode-text hover:bg-vscode-bg-lighter'}`}
           >
             Contracts
           </Link>
-          {/* <Link
-            to="/active-contracts"
-            className={`px-3 py-1 rounded-md transition-colors ${location.pathname === '/active-contracts' ? 'bg-vscode-bg-lighter text-white' : 'text-vscode-text-muted hover:text-vscode-text hover:bg-vscode-bg-lighter'}`}
-          >
-            Active Contracts
-          </Link> */}
+          
           <Link
             to="/attendance-records"
             className={`px-3 py-1 rounded-md transition-colors ${location.pathname === '/attendance-records' ? 'bg-vscode-bg-lighter text-white' : 'text-vscode-text-muted hover:text-vscode-text hover:bg-vscode-bg-lighter'}`}
@@ -75,7 +62,6 @@ const Navbar = ({ onToggleSidebar }) => {
           </Link>
         </div>
 
-        {/* Right side - Current time */}
         <div className="flex items-center space-x-4">
           <div className="hidden sm:block text-sm text-vscode-text-muted">
             {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
@@ -83,7 +69,6 @@ const Navbar = ({ onToggleSidebar }) => {
         </div>
       </div>
 
-      {/* Mobile page indicator */}
       <div className="md:hidden mt-2 pt-2 border-t border-vscode-border">
         <span className="text-sm text-vscode-text-muted">{getPageName(location.pathname)}</span>
       </div>

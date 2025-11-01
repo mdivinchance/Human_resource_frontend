@@ -23,41 +23,36 @@ const Contract = () => {
   const [editId, setEditId] = useState(null);
   const [viewContract, setViewContract] = useState(null);
 
-  // ✅ Fetch employees and contracts when component loads
   useEffect(() => {
     fetchEmployees();
     fetchContracts();
   }, []);
 
-  // ✅ Fetch employees
   const fetchEmployees = async () => {
     try {
       const res = await api.get("/employee/all");
       console.log("✅ Employees fetched:", res.data);
       setEmployees(res.data);
     } catch (error) {
-      console.error("❌ Error fetching employees:", error);
+      console.error(" Error fetching employees:", error);
       toast.error("Failed to load employees");
     }
   };
 
-  // ✅ Fetch contracts
   const fetchContracts = async () => {
     try {
       const res = await api.get("/contract/all");
-      console.log("✅ Contracts fetched:", res.data);
+      console.log(" Contracts fetched:", res.data);
       setContracts(res.data);
     } catch (error) {
-      console.error("❌ Error fetching contracts:", error);
+      console.error(" Error fetching contracts:", error);
       toast.error("Failed to load contracts");
     }
   };
 
-  // ✅ Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Auto-fill employee info
     if (name === "employeeId") {
       const selectedEmp = employees.find((emp) => emp.id === Number(value));
       if (selectedEmp) {
@@ -73,7 +68,6 @@ const Contract = () => {
     }
   };
 
-  // ✅ Add or update contract
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -106,7 +100,6 @@ const Contract = () => {
         toast.success("Contract added successfully");
       }
 
-      // Reset form
       setIsEditing(false);
       setEditId(null);
       setFormData({
@@ -121,15 +114,13 @@ const Contract = () => {
         status: "Active",
       });
 
-      // Refresh list
       fetchContracts();
     } catch (error) {
-      console.error("❌ Error saving contract:", error);
+      console.error(" Error saving contract:", error);
       toast.error("Failed to save contract");
     }
   };
 
-  // ✅ Edit existing contract
   const handleEdit = (contract) => {
     setFormData({
       employeeId: contract.employee?.id || "",
@@ -146,7 +137,6 @@ const Contract = () => {
     setEditId(contract.id);
   };
 
-  // ✅ Delete contract
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this contract?")) {
       try {
@@ -154,7 +144,7 @@ const Contract = () => {
         toast.success("Contract deleted successfully");
         fetchContracts();
       } catch (error) {
-        console.error("❌ Error deleting contract:", error);
+        console.error(" Error deleting contract:", error);
         toast.error("Failed to delete contract");
       }
     }
@@ -163,7 +153,6 @@ const Contract = () => {
   const handleView = (contract) => setViewContract(contract);
   const closeViewPopup = () => setViewContract(null);
 
-  // ✅ Download contracts as PDF
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(16);
@@ -206,7 +195,6 @@ const Contract = () => {
 
       
 
-      {/* Contract Form */}
       <form
         onSubmit={handleSubmit}
         className="bg-vscode-bg-light p-6 rounded-lg shadow-vscode border border-vscode-border mb-8"
@@ -408,7 +396,6 @@ const Contract = () => {
         </div>
       </div>
 
-      {/* View Contract Modal */}
       {viewContract && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-vscode-bg-light p-6 rounded-lg w-96 border border-vscode-border shadow-lg relative">

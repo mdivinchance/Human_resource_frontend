@@ -20,7 +20,7 @@ const Home = () => {
     try {
       const res = await api.get("/dashboard");
       if (res.data && res.data.length > 0) {
-        setTotals(res.data[0]); // Use the first object with totals
+        setTotals(res.data[0]); 
       }
     } catch (error) {
       console.error("Error fetching dashboard totals:", error);
@@ -34,7 +34,6 @@ const Home = () => {
         Human Resource Dashboard
       </h1>
 
-      {/* Dashboard Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <div className="card p-6 text-center hover:scale-[1.02] transition-transform duration-300">
           <h2 className="text-lg font-semibold text-vscode-text-muted mb-2">

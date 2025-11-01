@@ -27,7 +27,6 @@ const EmployeeRegister = () => {
     fetchDepartments();
   }, []);
 
-  // ✅ Fetch employees
   const fetchEmployees = async () => {
     try {
       const res = await api.get("/employee/all");
@@ -38,7 +37,6 @@ const EmployeeRegister = () => {
     }
   };
 
-  // ✅ Fetch departments
   const fetchDepartments = async () => {
     try {
       const res = await api.get("/dept");
@@ -49,7 +47,6 @@ const EmployeeRegister = () => {
     }
   };
 
-  // ✅ Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "departmentId") {
@@ -63,7 +60,6 @@ const EmployeeRegister = () => {
     }
   };
 
-  // ✅ Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -99,13 +95,11 @@ const EmployeeRegister = () => {
     }
   };
 
-  // ✅ Edit employee
   const handleEdit = (emp) => {
     setFormData(emp);
     setEditingId(emp.id);
   };
 
-  // ✅ Delete employee
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       try {
@@ -119,11 +113,9 @@ const EmployeeRegister = () => {
     }
   };
 
-  // ✅ View details
   const handleView = (emp) => setViewEmployee(emp);
   const closeViewPopup = () => setViewEmployee(null);
 
-  // ✅ Download employees as PDF
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(16);
@@ -160,7 +152,6 @@ const EmployeeRegister = () => {
         Employee Management
       </h1>
 
-      {/* Download Button */}
       <div className="flex justify-end mb-4">
         <button
           onClick={handleDownloadPDF}
@@ -170,7 +161,6 @@ const EmployeeRegister = () => {
         </button>
       </div>
 
-      {/* Employee Form */}
       <form
         onSubmit={handleSubmit}
         className="bg-vscode-bg-light p-6 rounded-lg shadow-vscode border border-vscode-border mb-8"
@@ -267,7 +257,6 @@ const EmployeeRegister = () => {
         </div>
       </form>
 
-      {/* Employee Table */}
       <div className="card overflow-x-auto">
         <div className="card-header text-lg font-semibold">
           Employees List

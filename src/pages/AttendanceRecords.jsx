@@ -22,26 +22,24 @@ const Attendance = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
 
-  // ✅ Fetch all employees
   const fetchEmployees = async () => {
     try {
       const res = await api.get("/employee/all");
-      console.log("✅ Employees fetched:", res.data);
+      console.log("Employees fetched:", res.data);
       setEmployees(res.data);
     } catch (error) {
-      console.error("❌ Error fetching employees:", error);
+      console.error(" Error fetching employees:", error);
       toast.error("Failed to load employees");
     }
   };
 
-  // ✅ Fetch all attendance records
   const fetchAttendance = async () => {
     try {
       const res = await api.get("/attandance/all");
       console.log("✅ Attendance fetched:", res.data);
       setAttendanceList(res.data);
     } catch (error) {
-      console.error("❌ Error fetching attendance:", error);
+      console.error(" Error fetching attendance:", error);
       toast.error("Failed to load attendance records");
     }
   };
@@ -51,27 +49,25 @@ const Attendance = () => {
     fetchAttendance();
   }, []);
 
-  // ✅ Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "date" && value !== todayDate) {
-      toast.error("⚠️ Attendance date must be today");
+      toast.error(" Attendance date must be today");
       return;
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Add or update attendance (backend)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.employeeId || !formData.date) {
-      toast.error("⚠️ Please select employee and date");
+      toast.error(" Please select employee and date");
       return;
     }
 
     if (formData.date !== todayDate) {
-      toast.error("⚠️ You can only record attendance for today");
+      toast.error(" You can only record attendance for today");
       return;
     }
 
@@ -83,43 +79,40 @@ const Attendance = () => {
           date: formData.date,
           status: formData.status,
         });
-        toast.success("✅ Attendance updated successfully");
+        toast.success(" Attendance updated successfully");
       } else {
         await api.post("/attandance", formData);
-        toast.success("✅ Attendance added successfully");
+        toast.success(" Attendance added successfully");
       }
 
       setFormData({ employeeId: "", date: todayDate, status: "Present" });
       setIsEditing(false);
       setEditId(null);
-      fetchAttendance(); // refresh list
+      fetchAttendance(); 
     } catch (error) {
-      console.error("❌ Error saving attendance:", error);
+      console.error(" Error saving attendance:", error);
       toast.error("Failed to save attendance");
     }
   };
 
-  // ✅ Delete attendance
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this record?")) {
       try {
         await api.delete(`/attandance/${id}`);
-        toast.success("🗑️ Attendance deleted successfully");
+        toast.success(" Attendance deleted successfully");
         fetchAttendance();
       } catch (error) {
-        console.error("❌ Error deleting attendance:", error);
+        console.error(" Error deleting attendance:", error);
         toast.error("Failed to delete attendance");
       }
     }
   };
 
-  // ✅ View attendance
   const handleView = (record) => {
     setSelectedRecord(record);
     setShowViewModal(true);
   };
 
-  // ✅ Edit attendance
   const handleEdit = (record) => {
     setFormData({
       employeeId: record.employee.id,
@@ -130,7 +123,6 @@ const Attendance = () => {
     setEditId(record.id);
   };
 
-  // ✅ Download single record PDF
   const handleDownloadSinglePDF = (record) => {
     const doc = new jsPDF();
     doc.setFontSize(14);
@@ -142,11 +134,10 @@ const Attendance = () => {
     toast.success(`📄 PDF downloaded for ${record.employee.firstname}`);
   };
 
-  // ✅ Download all attendance for today PDF
   const handleDownloadAllPDF = () => {
     const todayRecords = attendanceList.filter((r) => r.date === todayDate);
     if (todayRecords.length === 0) {
-      toast.error("⚠️ No attendance recorded for today");
+      toast.error(" No attendance recorded for today");
       return;
     }
 
@@ -164,7 +155,7 @@ const Attendance = () => {
 
     doc.autoTable({ head: [tableColumn], body: tableRows, startY: 25 });
     doc.save("attendance_today_report.pdf");
-    toast.success("✅ Today's attendance report downloaded!");
+    toast.success(" Today's attendance report downloaded!");
   };
 
   return (

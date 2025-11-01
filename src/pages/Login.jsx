@@ -21,19 +21,18 @@ const Login = ({ onLogin }) => {
 
       const { accessToken, email, roles } = res.data;
 
-      // Save token and user info
-      localStorage.setItem("token", accessToken); // ✅ Correct key
+      localStorage.setItem("token", accessToken); 
       localStorage.setItem("userEmail", email || username);
       localStorage.setItem("roles", JSON.stringify(roles || []));
       localStorage.setItem("isLoggedIn", "true");
 
       toast.success("✅ Login successful!");
       onLogin();
-      navigate("/"); // redirect to dashboard/home
+      navigate("/"); 
     } catch (error) {
       console.error("Login error:", error.response?.data || error);
       toast.error(
-        error.response?.data?.message || "❌ Invalid username or password!"
+        error.response?.data?.message || " Invalid username or password!"
       );
     } finally {
       setLoading(false);
@@ -71,9 +70,6 @@ const Login = ({ onLogin }) => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-        <p className="mt-4 text-sm text-gray-500 text-center">
-          Test Login: <strong>hradmin@unilac.ac.rw / 12345678</strong>
-        </p>
       </div>
     </div>
   );
